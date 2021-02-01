@@ -11,7 +11,7 @@ jobs:
           name: Cargo Build 
           command: cargo build --release -v
           environment:
-            CARGO_NET_GIT_FETCH_WITH_CLI=true
+            CARGO_NET_GIT_FETCH_WITH_CLI: true
 
 
       
