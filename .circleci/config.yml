@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: devtools/rust-toolset-rhel7:latest
+      - image: registry.access.redhat.com/devtools/rust-toolset-rhel7:latest
     steps:
       - checkout
       - run: cargo --version
