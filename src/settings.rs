@@ -13,7 +13,7 @@ struct FileConf {
     terminator: String,
 }
 #[derive(Debug, Deserialize)]
-struct Settings {
+pub struct Settings {
     fileconf: FileConf,
     kafkakonf: KafkaConf,
 }
