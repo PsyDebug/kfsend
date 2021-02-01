@@ -1,0 +1,6 @@
+[fileconf]
+filename="publevent.jms"
+terminator="#@#@#"
+[kafkakonf]
+broker="127.0.0.1:9092"
+topic="sender-test"
