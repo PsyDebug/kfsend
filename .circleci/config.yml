@@ -6,4 +6,4 @@ jobs:
       - image: registry.access.redhat.com/devtools/rust-toolset-rhel7:latest
     steps:
       - checkout
-      - run: cargo --version
+      - run: cargo build --release
