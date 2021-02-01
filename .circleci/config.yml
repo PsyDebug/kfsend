@@ -12,6 +12,9 @@ jobs:
           command: cargo build --release -v
           environment:
             CARGO_NET_GIT_FETCH_WITH_CLI: 'true'
+      - store_artifacts:
+          path: target/release/kfsend
+          destination: kfsend
 
 
       
