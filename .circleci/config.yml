@@ -6,7 +6,6 @@ jobs:
       - image: registry.access.redhat.com/devtools/rust-toolset-rhel7:latest
     steps:
       - checkout
-      - run: curl https://github.com/rust-lang/crates.io-index
       - run:
           name: Cargo Build 
           command: cargo build --release -v
