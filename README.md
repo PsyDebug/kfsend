@@ -1,6 +1,8 @@
+[![PsyDebug](https://circleci.com/gh/PsyDebug/kfsend.svg?style=svg)](https://circleci.com/gh/PsyDebug/kfsend)
+
 # kfsend
 
-Mini tool for send separated messages list to kafka.
+# Mini tool for send separated messages list to kafka.
 
 ## Run
 
