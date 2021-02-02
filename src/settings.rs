@@ -19,9 +19,10 @@ pub struct Settings {
 }
 
 impl Settings {
-    pub fn new() -> Result<Self, ConfigError> {
+    pub fn new(filepath: String) -> Result<Self, ConfigError> {
+        println!("Load config: {}",&filepath);
         let mut s = Config::new();
-        s.merge(File::with_name("conf.toml"))?;
+        s.merge(File::with_name(&filepath)).expect("Wrong reading config file");
         s.try_into()
     }
     pub fn filename(&self) -> String {

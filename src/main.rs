@@ -6,7 +6,6 @@ extern crate serde;
 extern crate serde_derive;
 
 mod settings;
-
 use settings::Settings;
 use std::fs;
 use kafka::producer::{Producer, Record, RequiredAcks};
@@ -14,16 +13,22 @@ use kafka::error::Error as KafkaError;
 use std::process;
 use std::io::{self};
 use uuid::Uuid;
+use std::env;
 
 fn main() {
-    let settings = Settings::new().unwrap();
+    let args: Vec<String> = env::args().collect();
+    let confpath = match args.get(1) {
+        Some(p) => p.to_string(),
+        None => "conf.toml".to_string()
+    };
+    let settings = Settings::new(confpath).unwrap();
     let filename = settings.filename();
     let broker = settings.broker();
     let topic = settings.topic();
     let terminator = settings.terminator();
 
     let contents = fs::read_to_string(&filename)
-        .expect("Something went wrong reading the file");
+        .expect("fileconf.filename wrong reading the file");
     let v: Vec<&str> = contents.split_terminator(&terminator).collect();
     println!("Has {} messages. Send it?(Y/N)", &v.len());
     let mut input = String::new();
