@@ -4,3 +4,6 @@ terminator="#@#@#"
 [kafkakonf]
 broker="127.0.0.1:9092"
 topic="sender-test"
+[amqpconf]
+url="amqp://guest:guest@localhost:5672"
+queue="my-test-queue"

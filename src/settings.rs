@@ -6,7 +6,11 @@ struct KafkaConf {
     broker: String,
     topic: String,
 }
-
+#[derive(Debug, Deserialize)]
+struct AMQPConf {
+    url: String,
+    queue: String,
+}
 #[derive(Debug, Deserialize)]
 struct FileConf {
     filename: String,
@@ -16,6 +20,7 @@ struct FileConf {
 pub struct Settings {
     fileconf: FileConf,
     kafkakonf: KafkaConf,
+    amqpconf: AMQPConf,
 }
 
 impl Settings {
