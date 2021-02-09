@@ -6,7 +6,11 @@ struct KafkaConf {
     broker: String,
     topic: String,
 }
-
+#[derive(Debug, Deserialize)]
+struct AMQPConf {
+    url: String,
+    queue: String,
+}
 #[derive(Debug, Deserialize)]
 struct FileConf {
     filename: String,
@@ -16,6 +20,7 @@ struct FileConf {
 pub struct Settings {
     fileconf: FileConf,
     kafkakonf: KafkaConf,
+    amqpconf: AMQPConf,
 }
 
 impl Settings {
@@ -37,5 +42,10 @@ impl Settings {
     pub fn terminator(&self) -> String {
         self.fileconf.terminator.to_string()
     }
-
+    pub fn url(&self) -> String {
+        self.amqpconf.url.to_string()
+    }
+    pub fn queue(&self) -> String {
+        self.amqpconf.queue.to_string()
+    }
 }
