@@ -60,7 +60,7 @@ fn kafka_message<'a, 'b>(
              .create()?;
     for (i,x) in datalist.iter().enumerate() {
     let my_uuid = Uuid::new_v4();
-    println!("{}: publish a message key: {} at {:?} to: {}",i,my_uuid, brokers.clone(), &topic);
+    println!("{}: publish a message key: {} at {:?} to: {}",i+1,my_uuid, brokers.clone(), &topic);
     producer.send(&Record {
         topic: topic,
         partition: -1,
