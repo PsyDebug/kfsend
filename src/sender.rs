@@ -1,6 +1,6 @@
 extern crate kafka;
 extern crate amqp;
-use amqp::{Session,Basic};
+use amqp::{Session,Basic,AMQPError};
 use amqp::protocol;
 use kafka::producer::{Producer, Record, RequiredAcks};
 use kafka::error::Error as KafkaError;
@@ -40,7 +40,10 @@ impl SenderFunction {
             },
             SenderFunction::AMQPSender => {
                 println!("Message will be send to AMQP"); 
-                amqp_message(datalist,&conf.url(),&conf.queue())
+                if let Err(e) = amqp_message(datalist,&conf.url(),&conf.queue())
+                {
+                    println!("Failed producing messages: {:?}", e);
+                }
                 
             },
         }
@@ -71,15 +74,16 @@ fn kafka_message<'a, 'b>(
     Ok(())
 }
 
-fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str) {
-    let mut session = Session::open_url(url).unwrap();
-    let mut channel = session.open_channel(1).unwrap();
+fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str)-> std::result::Result<(), AMQPError>  {
+    let mut session = Session::open_url(url)?;
+    let mut channel = session.open_channel(1)?;
     for (i,x) in datalist.iter().enumerate() {
         println!("{}: publish a message to: {}",i+1,&queue);
     channel.basic_publish("", &queue, true, false,
     protocol::basic::BasicProperties{ 
         content_type: Some("text".to_string()), 
         ..Default::default()}, 
-        (x.as_bytes()).to_vec()).unwrap();
+        (x.as_bytes()).to_vec())?;
     }
+    Ok(())
 }
