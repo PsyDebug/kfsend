@@ -42,5 +42,10 @@ impl Settings {
     pub fn terminator(&self) -> String {
         self.fileconf.terminator.to_string()
     }
-
+    pub fn url(&self) -> String {
+        self.amqpconf.url.to_string()
+    }
+    pub fn queue(&self) -> String {
+        self.amqpconf.queue.to_string()
+    }
 }

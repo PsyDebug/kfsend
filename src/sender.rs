@@ -1,5 +1,7 @@
 extern crate kafka;
-
+extern crate amqp;
+use amqp::{Session,Basic};
+use amqp::protocol;
 use kafka::producer::{Producer, Record, RequiredAcks};
 use kafka::error::Error as KafkaError;
 use uuid::Uuid;
@@ -38,6 +40,7 @@ impl SenderFunction {
             },
             SenderFunction::AMQPSender => {
                 println!("Message will be send to AMQP"); 
+                amqp_message(datalist,&conf.url(),&conf.queue())
                 
             },
         }
@@ -70,3 +73,17 @@ fn kafka_message<'a, 'b>(
     Ok(())
 }
 
+fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str) {
+    let mut session = Session::open_url(url).unwrap();
+    let mut channel = session.open_channel(1).unwrap();
+    let mut i = 1;
+    for x in &datalist {
+        println!("{}: publish a message to: {}",i,&queue);
+    channel.basic_publish("", &queue, true, false,
+    protocol::basic::BasicProperties{ 
+        content_type: Some("text".to_string()), 
+        ..Default::default()}, 
+        (x.as_bytes()).to_vec()).unwrap();
+        i+=1;
+    }
+}
