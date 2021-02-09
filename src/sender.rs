@@ -58,8 +58,7 @@ fn kafka_message<'a, 'b>(
         Producer::from_hosts(brokers.clone())
              .with_required_acks(RequiredAcks::One)
              .create()?;
-    let mut i = 1;
-    for x in &datalist {
+    for (i,x) in datalist.iter().enumerate() {
     let my_uuid = Uuid::new_v4();
     println!("{}: publish a message key: {} at {:?} to: {}",i,my_uuid, brokers.clone(), &topic);
     producer.send(&Record {
@@ -68,7 +67,6 @@ fn kafka_message<'a, 'b>(
         key: (my_uuid.to_string()),
         value: x.as_bytes(),
       })?;
-      i+=1;
     }
     Ok(())
 }
@@ -76,14 +74,12 @@ fn kafka_message<'a, 'b>(
 fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str) {
     let mut session = Session::open_url(url).unwrap();
     let mut channel = session.open_channel(1).unwrap();
-    let mut i = 1;
-    for x in &datalist {
-        println!("{}: publish a message to: {}",i,&queue);
+    for (i,x) in datalist.iter().enumerate() {
+        println!("{}: publish a message to: {}",i+1,&queue);
     channel.basic_publish("", &queue, true, false,
     protocol::basic::BasicProperties{ 
         content_type: Some("text".to_string()), 
         ..Default::default()}, 
         (x.as_bytes()).to_vec()).unwrap();
-        i+=1;
     }
 }
