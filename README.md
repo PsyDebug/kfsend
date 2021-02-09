@@ -2,11 +2,16 @@
 
 # kfsend
 
-**Mini tool for send separated messages list to kafka.**
+**Mini tool for send separated messages list to kafka or amqp.**
 
 ## Run
 
-`$ ./kfsend config.toml`
+You cat use one of this drivers:
+
+* amqp
+* kafka
+
+`$ ./kfsend amqp config.toml`
 
 ## Example
 
@@ -19,6 +24,9 @@ terminator="#@#@#"
 [kafkakonf]
 broker="127.0.0.1:9092"
 topic="sender-test"
+[amqpconf]
+url="amqp://guest:guest@localhost:5672"
+queue="my-test-queue"
 ```
 
 Where `filename` is path to messages file. 
