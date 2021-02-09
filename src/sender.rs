@@ -74,7 +74,7 @@ fn kafka_message<'a, 'b>(
     Ok(())
 }
 
-fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str)-> std::result::Result<(), AMQPError>  {
+fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str)-> Result<(), AMQPError>  {
     let mut session = Session::open_url(url)?;
     let mut channel = session.open_channel(1)?;
     for (i,x) in datalist.iter().enumerate() {
