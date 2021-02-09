@@ -7,7 +7,7 @@ use kafka::error::Error as KafkaError;
 use uuid::Uuid;
 use std::process;
 use crate::Settings;
-
+use std::{thread, time};
 
 #[derive(Debug)]
 pub enum SenderFunction {
@@ -85,5 +85,8 @@ fn amqp_message(datalist: Vec<&str>,url: &str,queue: &str)-> Result<(), AMQPErro
         ..Default::default()}, 
         (x.as_bytes()).to_vec())?;
     }
+    thread::sleep(time::Duration::from_secs(60));
+    channel.close(200, "Bye")?;
+    session.close(200, "Good Bye");
     Ok(())
 }
